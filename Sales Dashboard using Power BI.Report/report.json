@@ -1,0 +1,145 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/1.0.0/schema.json",
+  "config": "{\"version\": \"5.50\", \"themeCollection\": {\"baseTheme\": {\"name\": \"User\", \"version\": \"2.157\", \"type\": 2}}, \"activeSectionName\": \"ReportSection1\"}",
+  "layoutOptimization": 0,
+  "resourcePackages": [],
+  "sections": [
+    {
+      "name": "ReportSection1",
+      "displayName": "Executive Sales Dashboard",
+      "filters": "[]",
+      "height": 900.0,
+      "width": 1280.0,
+      "visualContainers": [
+        {
+          "x": 20,
+          "y": 15,
+          "z": 0,
+          "width": 1240,
+          "height": 50,
+          "config": "{\"name\": \"Header_Title\", \"singleVisual\": {\"visualType\": \"textbox\", \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Sales Analytics Dashboard\", \"textStyle\": {\"fontFamily\": \"Segoe UI\", \"fontSize\": \"18pt\", \"fontWeight\": \"bold\", \"color\": \"#0f172a\"}}]}]}}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 75,
+          "z": 1,
+          "width": 230,
+          "height": 80,
+          "config": "{\"name\": \"Year_Slicer\", \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Dim_Date.Year\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"Dim_Date\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Year\"}, \"Name\": \"Dim_Date.Year\"}]}}}"
+        },
+        {
+          "x": 270,
+          "y": 75,
+          "z": 2,
+          "width": 230,
+          "height": 80,
+          "config": "{\"name\": \"Region_Slicer\", \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Dim_Region.Region\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"Dim_Region\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Region\"}, \"Name\": \"Dim_Region.Region\"}]}}}"
+        },
+        {
+          "x": 520,
+          "y": 75,
+          "z": 3,
+          "width": 230,
+          "height": 80,
+          "config": "{\"name\": \"Category_Slicer\", \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Dim_Product.Category\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"Dim_Product\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Category\"}, \"Name\": \"Dim_Product.Category\"}]}}}"
+        },
+        {
+          "x": 770,
+          "y": 75,
+          "z": 4,
+          "width": 230,
+          "height": 80,
+          "config": "{\"name\": \"Product_Slicer\", \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Dim_Product.Product_Name\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"Dim_Product\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Product_Name\"}, \"Name\": \"Dim_Product.Product_Name\"}]}}}"
+        },
+        {
+          "x": 1020,
+          "y": 75,
+          "z": 5,
+          "width": 240,
+          "height": 80,
+          "config": "{\"name\": \"Customer_Slicer\", \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Dim_Customer.Customer_Name\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"Dim_Customer\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Customer_Name\"}, \"Name\": \"Dim_Customer.Customer_Name\"}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 165,
+          "z": 6,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"Total_Revenue_Card\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Fields\": [{\"queryRef\": \"Fact_Sales.Total Revenue\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"Fact_Sales\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Total Revenue\"}, \"Name\": \"Fact_Sales.Total Revenue\"}]}}}"
+        },
+        {
+          "x": 270,
+          "y": 165,
+          "z": 7,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"Total_Profit_Card\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Fields\": [{\"queryRef\": \"Fact_Sales.Total Profit\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"Fact_Sales\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Total Profit\"}, \"Name\": \"Fact_Sales.Total Profit\"}]}}}"
+        },
+        {
+          "x": 520,
+          "y": 165,
+          "z": 8,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"Total_Orders_Card\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Fields\": [{\"queryRef\": \"Fact_Sales.Total Orders\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"Fact_Sales\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Total Orders\"}, \"Name\": \"Fact_Sales.Total Orders\"}]}}}"
+        },
+        {
+          "x": 770,
+          "y": 165,
+          "z": 9,
+          "width": 230,
+          "height": 110,
+          "config": "{\"name\": \"Total_Customers_Card\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Fields\": [{\"queryRef\": \"Fact_Sales.Total Customers\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"Fact_Sales\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Total Customers\"}, \"Name\": \"Fact_Sales.Total Customers\"}]}}}"
+        },
+        {
+          "x": 1020,
+          "y": 165,
+          "z": 10,
+          "width": 240,
+          "height": 110,
+          "config": "{\"name\": \"Profit_Margin_Card\", \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Fields\": [{\"queryRef\": \"Fact_Sales.Profit Margin %\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"f\", \"Entity\": \"Fact_Sales\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"Profit Margin %\"}, \"Name\": \"Fact_Sales.Profit Margin %\"}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 285,
+          "z": 11,
+          "width": 820,
+          "height": 300,
+          "config": "{\"name\": \"Monthly_Trend_Chart\", \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Dim_Date.Year_Month\"}], \"Y\": [{\"queryRef\": \"Fact_Sales.Total Revenue\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"x\", \"Entity\": \"Dim_Date\", \"Type\": 0}, {\"Name\": \"y\", \"Entity\": \"Fact_Sales\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"x\"}}, \"Property\": \"Year_Month\"}, \"Name\": \"Dim_Date.Year_Month\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"y\"}}, \"Property\": \"Total Revenue\"}, \"Name\": \"Fact_Sales.Total Revenue\"}]}}}"
+        },
+        {
+          "x": 850,
+          "y": 285,
+          "z": 12,
+          "width": 410,
+          "height": 300,
+          "config": "{\"name\": \"Category_Sales_Chart\", \"singleVisual\": {\"visualType\": \"pieChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Dim_Product.Category\"}], \"Y\": [{\"queryRef\": \"Fact_Sales.Total Revenue\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"x\", \"Entity\": \"Dim_Product\", \"Type\": 0}, {\"Name\": \"y\", \"Entity\": \"Fact_Sales\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"x\"}}, \"Property\": \"Category\"}, \"Name\": \"Dim_Product.Category\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"y\"}}, \"Property\": \"Total Revenue\"}, \"Name\": \"Fact_Sales.Total Revenue\"}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 595,
+          "z": 13,
+          "width": 390,
+          "height": 295,
+          "config": "{\"name\": \"Region_Sales_Chart\", \"singleVisual\": {\"visualType\": \"barChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Dim_Region.Region\"}], \"Y\": [{\"queryRef\": \"Fact_Sales.Total Revenue\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"x\", \"Entity\": \"Dim_Region\", \"Type\": 0}, {\"Name\": \"y\", \"Entity\": \"Fact_Sales\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"x\"}}, \"Property\": \"Region\"}, \"Name\": \"Dim_Region.Region\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"y\"}}, \"Property\": \"Total Revenue\"}, \"Name\": \"Fact_Sales.Total Revenue\"}]}}}"
+        },
+        {
+          "x": 420,
+          "y": 595,
+          "z": 14,
+          "width": 420,
+          "height": 295,
+          "config": "{\"name\": \"Top_Products_Chart\", \"singleVisual\": {\"visualType\": \"barChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Dim_Product.Product_Name\"}], \"Y\": [{\"queryRef\": \"Fact_Sales.Total Revenue\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"x\", \"Entity\": \"Dim_Product\", \"Type\": 0}, {\"Name\": \"y\", \"Entity\": \"Fact_Sales\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"x\"}}, \"Property\": \"Product_Name\"}, \"Name\": \"Dim_Product.Product_Name\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"y\"}}, \"Property\": \"Total Revenue\"}, \"Name\": \"Fact_Sales.Total Revenue\"}]}}}"
+        },
+        {
+          "x": 850,
+          "y": 595,
+          "z": 15,
+          "width": 410,
+          "height": 295,
+          "config": "{\"name\": \"Top_Customers_Chart\", \"singleVisual\": {\"visualType\": \"barChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Dim_Customer.Customer_Name\"}], \"Y\": [{\"queryRef\": \"Fact_Sales.Total Revenue\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"x\", \"Entity\": \"Dim_Customer\", \"Type\": 0}, {\"Name\": \"y\", \"Entity\": \"Fact_Sales\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"x\"}}, \"Property\": \"Customer_Name\"}, \"Name\": \"Dim_Customer.Customer_Name\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"y\"}}, \"Property\": \"Total Revenue\"}, \"Name\": \"Fact_Sales.Total Revenue\"}]}}}"
+        }
+      ]
+    }
+  ]
+}

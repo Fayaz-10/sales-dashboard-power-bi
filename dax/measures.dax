@@ -1,0 +1,53 @@
+// ===============================================================================
+// DAX MEASURES FOR SALES ANALYTICS DASHBOARD
+// ===============================================================================
+
+// 1. Total Revenue
+// Computes the total monetary sales revenue from the Fact_Sales table.
+Total Revenue = 
+SUM(Fact_Sales[Sales])
+
+// 2. Total Profit
+// Computes the total net profit from the Fact_Sales table.
+Total Profit = 
+SUM(Fact_Sales[Profit])
+
+// 3. Total Orders
+// Calculates the unique count of sales orders placed.
+Total Orders = 
+DISTINCTCOUNT(Fact_Sales[Order_ID])
+
+// 4. Total Customers
+// Calculates the unique count of purchasing customers.
+Total Customers = 
+DISTINCTCOUNT(Fact_Sales[Customer_ID])
+
+// 5. Profit Margin %
+// Calculates the profit margin percentage safely preventing division-by-zero errors.
+Profit Margin % = 
+DIVIDE([Total Profit], [Total Revenue], 0)
+
+// 6. Average Order Value (AOV)
+// Calculates the average revenue generated per unique order.
+Avg Order Value = 
+DIVIDE([Total Revenue], [Total Orders], 0)
+
+// 7. Total Quantity Sold
+// Computes the total units of products sold across transactions.
+Total Quantity = 
+SUM(Fact_Sales[Quantity])
+
+// ===============================================================================
+// CALENDAR TABLE DAX CREATION
+// ===============================================================================
+
+Dim_Date = 
+ADDCOLUMNS (
+    CALENDAR(MIN(Fact_Sales[Order_Date]), MAX(Fact_Sales[Order_Date])),
+    "Year", YEAR([Date]),
+    "Month_Number", MONTH([Date]),
+    "Month_Name", FORMAT([Date], "MMM"),
+    "Year_Month", FORMAT([Date], "YYYY-MM"),
+    "Quarter", "Q" & FORMAT([Date], "Q"),
+    "Day_of_Week", FORMAT([Date], "ddd")
+)

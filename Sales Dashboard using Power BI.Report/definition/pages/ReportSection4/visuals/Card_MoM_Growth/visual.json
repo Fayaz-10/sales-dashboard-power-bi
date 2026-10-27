@@ -1,0 +1,35 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "Card_MoM_Growth",
+  "position": {
+    "x": 440,
+    "y": 145,
+    "z": 4000,
+    "height": 100,
+    "width": 400
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Fields": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Sales"
+                    }
+                  },
+                  "Property": "MoM Revenue Growth %"
+                }
+              },
+              "queryRef": "Fact_Sales.MoM Revenue Growth %"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

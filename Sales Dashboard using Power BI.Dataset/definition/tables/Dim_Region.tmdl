@@ -1,0 +1,25 @@
+table Dim_Region
+	lineageTag: 2bf35950-7f55-4df2-8470-c585417d1f6e
+
+	column State
+		dataType: string
+		isKey
+		lineageTag: 35be2a3c-0e65-4c4b-9ef9-7b7724b57cd7
+		sourceColumn: State
+
+	column Region
+		dataType: string
+		lineageTag: a20b4ba8-c270-46ec-8da8-7a4061301525
+		sourceColumn: Region
+
+	partition Dim_Region-Partition = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\Git Hub Projects\data\cleaned_sales_data.csv"),[Delimiter=",", Columns=18, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Selected Columns" = Table.SelectColumns(#"Promoted Headers",{"State", "Region"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Selected Columns")
+				in
+				    #"Removed Duplicates"
+

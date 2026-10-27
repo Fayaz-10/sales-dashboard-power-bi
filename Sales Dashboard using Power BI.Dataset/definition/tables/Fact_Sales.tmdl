@@ -1,0 +1,161 @@
+table Fact_Sales
+	lineageTag: 671ec1aa-da49-4413-84ba-d3534c96d59d
+
+	measure 'Total Revenue' = SUM(Fact_Sales[Revenue])
+		formatString: $#,##0.00
+		lineageTag: 8b4f1343-b0d3-4694-9c9a-940b5237a626
+
+	measure 'Total Cost' = SUM(Fact_Sales[Cost])
+		formatString: $#,##0.00
+		lineageTag: 19a6a3e7-18ca-4939-9f52-2699914f05e8
+
+	measure 'Total Profit' = SUM(Fact_Sales[Profit])
+		formatString: $#,##0.00
+		lineageTag: 25c7a223-ab39-4251-86aa-c6411cfd520c
+
+	measure 'Total Orders' = DISTINCTCOUNT(Fact_Sales[Order_ID])
+		formatString: #,##0
+		lineageTag: 0e9ac80d-df89-4f19-937e-265ddcf24fb2
+
+	measure 'Total Customers' = DISTINCTCOUNT(Fact_Sales[Customer_ID])
+		formatString: #,##0
+		lineageTag: adb096d1-5e0f-4107-86f6-5cffdd6b8f31
+
+	measure 'Total Quantity Sold' = SUM(Fact_Sales[Quantity])
+		formatString: #,##0
+		lineageTag: e7951e61-d064-437e-bc07-0e3bde8c6ba8
+
+	measure 'Profit Margin %' = DIVIDE([Total Profit], [Total Revenue], 0)
+		formatString: 0.00%
+		lineageTag: c46b89e0-88f7-43ca-a317-12b88632ca57
+
+	measure 'Average Order Value' = DIVIDE([Total Revenue], [Total Orders], 0)
+		formatString: $#,##0.00
+		lineageTag: 505c9d62-1597-4d2b-8275-e3bc6f6fb361
+
+	measure 'Average Selling Price' = DIVIDE([Total Revenue], [Total Quantity Sold], 0)
+		formatString: $#,##0.00
+		lineageTag: a4bb6594-a696-44a3-86cd-a4dff48699bb
+
+	measure 'Revenue Previous Month' = CALCULATE([Total Revenue], DATEADD(Dim_Date[Date], -1, MONTH))
+		formatString: $#,##0.00
+		lineageTag: eaf5dfe0-fab9-4d33-89c0-12905de94737
+
+	measure 'MoM Revenue Growth %' = VAR CurrentRev = [Total Revenue] VAR PreviousRev = [Revenue Previous Month] RETURN IF(ISBLANK(PreviousRev), BLANK(), DIVIDE(CurrentRev - PreviousRev, PreviousRev, 0))
+		formatString: 0.00%
+		lineageTag: 609d7c9b-5b08-4576-9a16-b6af94530285
+
+	measure 'Revenue Previous Year' = CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(Dim_Date[Date]))
+		formatString: $#,##0.00
+		lineageTag: 8ddd646d-d93c-46fd-b8ed-7ad32ac107e6
+
+	measure 'YoY Revenue Growth %' = VAR CurrentRev = [Total Revenue] VAR PreviousYearRev = [Revenue Previous Year] RETURN IF(ISBLANK(PreviousYearRev), BLANK(), DIVIDE(CurrentRev - PreviousYearRev, PreviousYearRev, 0))
+		formatString: 0.00%
+		lineageTag: da896944-2e50-44b4-8291-80f052ee2c44
+
+	column Order_ID
+		dataType: string
+		lineageTag: 715a3fac-39e5-49bf-8ad2-b1ef6e640cc2
+		sourceColumn: Order_ID
+
+	column Order_Date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 7803883f-9a0e-4c6d-bc9e-d4e88c2414cd
+		sourceColumn: Order_Date
+
+	column Customer_ID
+		dataType: string
+		lineageTag: e39df7f7-f8b8-4fd0-8a64-d5517b7871ed
+		sourceColumn: Customer_ID
+
+	column Customer_Name
+		dataType: string
+		lineageTag: d2889bf3-f7fa-4cff-9b92-4e3d7d9ee235
+		sourceColumn: Customer_Name
+
+	column Segment
+		dataType: string
+		lineageTag: e1dcfad1-4141-40e1-8081-b834356f7eb7
+		sourceColumn: Segment
+
+	column Product_ID
+		dataType: string
+		lineageTag: 6a85c537-a31d-477b-975f-9cbcc94ec384
+		sourceColumn: Product_ID
+
+	column Product_Name
+		dataType: string
+		lineageTag: ada87583-d8aa-4d88-bb92-a43bcc5e76cf
+		sourceColumn: Product_Name
+
+	column Category
+		dataType: string
+		lineageTag: acbe1485-5181-47c5-9141-55053356e0aa
+		sourceColumn: Category
+
+	column Subcategory
+		dataType: string
+		lineageTag: f8f4582c-22db-4b54-95a9-ff665fa35392
+		sourceColumn: Subcategory
+
+	column Region
+		dataType: string
+		lineageTag: bebaabdb-a0f8-435a-b232-6486abbc9728
+		sourceColumn: Region
+
+	column State
+		dataType: string
+		lineageTag: 928a1984-1440-4d49-81f0-3f05210fd9cf
+		sourceColumn: State
+
+	column Quantity
+		dataType: int64
+		lineageTag: b0bc7bef-46e8-4551-981d-6bc7f720e693
+		sourceColumn: Quantity
+
+	column Unit_Price
+		dataType: double
+		formatString: $#,##0.00
+		lineageTag: 719d07b0-26d6-4cc9-9264-37d0ed95b832
+		sourceColumn: Unit_Price
+
+	column Discount
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 73d8c589-e9d2-48f1-b824-67574ab3b86b
+		sourceColumn: Discount
+
+	column Revenue
+		dataType: double
+		formatString: $#,##0.00
+		lineageTag: a67311f7-d134-40ae-8884-caf4a89a994e
+		sourceColumn: Revenue
+
+	column Cost
+		dataType: double
+		formatString: $#,##0.00
+		lineageTag: eebd916e-5200-4ccc-a40c-4e27a2e2511a
+		sourceColumn: Cost
+
+	column Profit
+		dataType: double
+		formatString: $#,##0.00
+		lineageTag: 14358621-95f5-4e9b-b910-eaeae8f1a5b1
+		sourceColumn: Profit
+
+	column Payment_Method
+		dataType: string
+		lineageTag: d6083745-b5d0-42ca-a844-13a97ea3b308
+		sourceColumn: Payment_Method
+
+	partition Fact_Sales-Partition = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\Git Hub Projects\data\cleaned_sales_data.csv"),[Delimiter=",", Columns=18, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{ "Order_ID", type text}, {"Order_Date", type datetime}, {"Customer_ID", type text}, {"Customer_Name", type text}, {"Segment", type text}, {"Product_ID", type text}, {"Product_Name", type text}, {"Category", type text}, {"Subcategory", type text}, {"Region", type text}, {"State", type text}, {"Quantity", Int64.Type}, {"Unit_Price", type number}, {"Discount", type number}, {"Revenue", type number}, {"Cost", type number}, {"Profit", type number}, {"Payment_Method", type text}})
+				in
+				    #"Changed Type"
+

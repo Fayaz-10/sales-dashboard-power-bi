@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Sales Dashboard using Power BI"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "a470052c-7558-46f2-99fc-d1d727af42a1"
+  }
+}

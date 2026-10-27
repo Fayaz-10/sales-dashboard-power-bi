@@ -1,0 +1,62 @@
+table Dim_Date
+	lineageTag: 934e4253-7f46-4634-868d-a9866d6a40b2
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: yyyy-mm-dd
+		lineageTag: 7502de6e-5bc2-4422-a832-c0a04a5b309f
+		sourceColumn: Date
+
+	column Year
+		dataType: int64
+		lineageTag: 9bf072ed-6961-41b9-8c70-82f528caadbe
+		sourceColumn: Year
+
+	column Quarter
+		dataType: string
+		lineageTag: c57497b7-7dbc-42ef-9614-be9e46a7ad18
+		sourceColumn: Quarter
+
+	column Month_Number
+		dataType: int64
+		lineageTag: 0260abfd-c44d-477e-a27c-4cdf07cb4354
+		sourceColumn: Month_Number
+
+	column Month_Name
+		dataType: string
+		lineageTag: 9ecf10d9-4e6c-47b3-885c-142b352dc984
+		sourceColumn: Month_Name
+
+	column Year_Month
+		dataType: string
+		lineageTag: d8dccae2-aba9-46f6-975c-9fef6cbddd9d
+		sourceColumn: Year_Month
+
+	column Day
+		dataType: int64
+		lineageTag: 9c8e196b-5412-419a-aa9d-09710a641836
+		sourceColumn: Day
+
+	column Day_of_Week
+		dataType: string
+		lineageTag: a269de37-5ac6-4b33-b57b-7e8fdfd52cd0
+		sourceColumn: Day_of_Week
+
+	partition Dim_Date-Partition = m
+		mode: import
+		source =
+				let
+				    Source = List.Dates(#date(2024, 1, 1), 731, #duration(1, 0, 0, 0)),
+				    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), {"Date"}, null, ExtraValues.Error),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Converted to Table",{{"Date", type datetime}}),
+				    #"Added Year" = Table.AddColumn(#"Changed Type", "Year", each Date.Year([Date]), Int64.Type),
+				    #"Added Quarter" = Table.AddColumn(#"Added Year", "Quarter", each "Q" & Text.From(Date.QuarterOfYear([Date])), type text),
+				    #"Added Month Number" = Table.AddColumn(#"Added Quarter", "Month_Number", each Date.Month([Date]), Int64.Type),
+				    #"Added Month Name" = Table.AddColumn(#"Added Month Number", "Month_Name", each Date.ToText([Date], "MMM"), type text),
+				    #"Added Year Month" = Table.AddColumn(#"Added Month Name", "Year_Month", each Date.ToText([Date], "yyyy-MM"), type text),
+				    #"Added Day" = Table.AddColumn(#"Added Year Month", "Day", each Date.Day([Date]), Int64.Type),
+				    #"Added Day of Week" = Table.AddColumn(#"Added Day", "Day_of_Week", each Date.ToText([Date], "ddd"), type text)
+				in
+				    #"Added Day of Week"
+

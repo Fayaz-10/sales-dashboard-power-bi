@@ -1,0 +1,42 @@
+table Dim_Product
+	lineageTag: b282bf2e-75fe-434c-9d8f-65bd2f5e8170
+
+	column Product_ID
+		dataType: string
+		isKey
+		lineageTag: 1011280c-3563-44aa-b8bc-e86e6ea52eec
+		sourceColumn: Product_ID
+
+	column Product_Name
+		dataType: string
+		lineageTag: 3d40317e-3f4b-4726-bf62-57b9640d009d
+		sourceColumn: Product_Name
+
+	column Category
+		dataType: string
+		lineageTag: 88b979e0-389e-49f2-b54a-fce4bae47a4e
+		sourceColumn: Category
+
+	column Subcategory
+		dataType: string
+		lineageTag: f304ced9-db3b-4245-9546-2f890a722f9f
+		sourceColumn: Subcategory
+
+	column Unit_Price
+		dataType: double
+		formatString: $#,##0.00
+		lineageTag: 036a9e53-2fde-400c-8b96-f51dfb36b04a
+		sourceColumn: Unit_Price
+
+	partition Dim_Product-Partition = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\Git Hub Projects\data\cleaned_sales_data.csv"),[Delimiter=",", Columns=18, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Selected Columns" = Table.SelectColumns(#"Promoted Headers",{"Product_ID", "Product_Name", "Category", "Subcategory", "Unit_Price"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Selected Columns",{{"Unit_Price", type number}}),
+				    #"Removed Duplicates" = Table.Distinct(#"Changed Type")
+				in
+				    #"Removed Duplicates"
+

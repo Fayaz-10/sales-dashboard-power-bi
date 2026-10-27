@@ -1,53 +1,125 @@
 // ===============================================================================
-// DAX MEASURES FOR SALES ANALYTICS DASHBOARD
+// DAX MEASURES CATALOG FOR SALES ANALYTICS DASHBOARD
+// ===============================================================================
+// Project: Sales Dashboard using Power BI
+// Architecture: Star Schema (Fact_Sales + 4 Dimensions)
+// Compliance: Explicit Measures with Divide-by-Zero Protection & Time Intelligence
 // ===============================================================================
 
-// 1. Total Revenue
-// Computes the total monetary sales revenue from the Fact_Sales table.
-Total Revenue = 
-SUM(Fact_Sales[Sales])
+// -------------------------------------------------------------------------------
+// 1. CORE FINANCIAL MEASURES
+// -------------------------------------------------------------------------------
 
-// 2. Total Profit
-// Computes the total net profit from the Fact_Sales table.
+// 1. Total Revenue
+// Computes gross monetary sales realized across all valid transactions.
+Total Revenue = 
+SUM(Fact_Sales[Revenue])
+
+// 2. Total Cost
+// Computes the total Cost of Goods Sold (COGS).
+Total Cost = 
+SUM(Fact_Sales[Cost])
+
+// 3. Total Profit
+// Computes net gross profit realized after subtracting total cost from total revenue.
 Total Profit = 
 SUM(Fact_Sales[Profit])
 
-// 3. Total Orders
-// Calculates the unique count of sales orders placed.
+// -------------------------------------------------------------------------------
+// 2. VOLUME & OPERATIONAL MEASURES
+// -------------------------------------------------------------------------------
+
+// 4. Total Orders
+// Counts the unique sales transactions placed.
 Total Orders = 
 DISTINCTCOUNT(Fact_Sales[Order_ID])
 
-// 4. Total Customers
-// Calculates the unique count of purchasing customers.
+// 5. Total Customers
+// Counts the unique active purchasing accounts.
 Total Customers = 
 DISTINCTCOUNT(Fact_Sales[Customer_ID])
 
-// 5. Profit Margin %
-// Calculates the profit margin percentage safely preventing division-by-zero errors.
+// 6. Total Quantity Sold
+// Aggregates total physical units sold across orders.
+Total Quantity Sold = 
+SUM(Fact_Sales[Quantity])
+
+// -------------------------------------------------------------------------------
+// 3. EFFICIENCY & UNIT METRICS
+// -------------------------------------------------------------------------------
+
+// 7. Profit Margin Percentage
+// Calculates the overall profit margin percentage with safe zero-denominator handling.
 Profit Margin % = 
 DIVIDE([Total Profit], [Total Revenue], 0)
 
-// 6. Average Order Value (AOV)
-// Calculates the average revenue generated per unique order.
-Avg Order Value = 
+// 8. Average Order Value (AOV)
+// Measures average revenue generated per individual order transaction.
+Average Order Value = 
 DIVIDE([Total Revenue], [Total Orders], 0)
 
-// 7. Total Quantity Sold
-// Computes the total units of products sold across transactions.
-Total Quantity = 
-SUM(Fact_Sales[Quantity])
+// 9. Average Selling Price (ASP)
+// Measures the realized revenue per unit product sold.
+Average Selling Price = 
+DIVIDE([Total Revenue], [Total Quantity Sold], 0)
+
+// -------------------------------------------------------------------------------
+// 4. TIME INTELLIGENCE & COMPARATIVE GROWTH MEASURES
+// -------------------------------------------------------------------------------
+
+// 10. Revenue Previous Month
+// Shifts the evaluation context backward by one contiguous month on Dim_Date.
+Revenue Previous Month = 
+CALCULATE(
+    [Total Revenue],
+    DATEADD(Dim_Date[Date], -1, MONTH)
+)
+
+// 11. Month-over-Month Revenue Growth %
+// Calculates percentage change in revenue compared to prior month.
+// Returns BLANK() when previous month baseline is not available (e.g. Jan 2024).
+MoM Revenue Growth % = 
+VAR CurrentRev = [Total Revenue]
+VAR PreviousRev = [Revenue Previous Month]
+RETURN
+    IF(
+        ISBLANK(PreviousRev),
+        BLANK(),
+        DIVIDE(CurrentRev - PreviousRev, PreviousRev, 0)
+    )
+
+// 12. Revenue Previous Year
+// Shifts evaluation context to the exact identical period in the previous year.
+Revenue Previous Year = 
+CALCULATE(
+    [Total Revenue],
+    SAMEPERIODLASTYEAR(Dim_Date[Date])
+)
+
+// 13. Year-over-Year Revenue Growth %
+// Calculates annual expansion rate. Returns BLANK() for initial year (2024).
+YoY Revenue Growth % = 
+VAR CurrentRev = [Total Revenue]
+VAR PreviousYearRev = [Revenue Previous Year]
+RETURN
+    IF(
+        ISBLANK(PreviousYearRev),
+        BLANK(),
+        DIVIDE(CurrentRev - PreviousYearRev, PreviousYearRev, 0)
+    )
 
 // ===============================================================================
-// CALENDAR TABLE DAX CREATION
+// CALENDAR TABLE DAX DEFINITION (FOR MANUAL TABLE CREATION IN POWER BI DESKTOP)
 // ===============================================================================
 
 Dim_Date = 
 ADDCOLUMNS (
     CALENDAR(MIN(Fact_Sales[Order_Date]), MAX(Fact_Sales[Order_Date])),
     "Year", YEAR([Date]),
+    "Quarter", "Q" & FORMAT([Date], "Q"),
     "Month_Number", MONTH([Date]),
     "Month_Name", FORMAT([Date], "MMM"),
-    "Year_Month", FORMAT([Date], "YYYY-MM"),
-    "Quarter", "Q" & FORMAT([Date], "Q"),
+    "Year_Month", FORMAT([Date], "yyyy-MM"),
+    "Day", DAY([Date]),
     "Day_of_Week", FORMAT([Date], "ddd")
 )

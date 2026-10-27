@@ -44,3 +44,8 @@ desktop.ini
 *.pbix.bak
 .pytest_cache/
 .coverage
+
+# Local Development Backups
+backup_pre_improvement/
+backup_pbip/
+backup_before_pbip_fix/

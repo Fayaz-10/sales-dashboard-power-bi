@@ -1,0 +1,16 @@
+relationship Fact_Sales_Dim_Date
+	fromColumn: Fact_Sales.Order_Date
+	toColumn: Dim_Date.Date
+
+relationship Fact_Sales_Dim_Customer
+	fromColumn: Fact_Sales.Customer_ID
+	toColumn: Dim_Customer.Customer_ID
+
+relationship Fact_Sales_Dim_Product
+	fromColumn: Fact_Sales.Product_ID
+	toColumn: Dim_Product.Product_ID
+
+relationship Fact_Sales_Dim_Region
+	fromColumn: Fact_Sales.State
+	toColumn: Dim_Region.State
+

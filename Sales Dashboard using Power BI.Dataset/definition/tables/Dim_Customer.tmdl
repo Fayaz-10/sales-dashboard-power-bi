@@ -1,0 +1,30 @@
+table Dim_Customer
+	lineageTag: b2874a6e-1957-4243-80ff-94d24653db14
+
+	column Customer_ID
+		dataType: string
+		isKey
+		lineageTag: 47575959-6700-4a65-8e4a-879da2fb3f80
+		sourceColumn: Customer_ID
+
+	column Customer_Name
+		dataType: string
+		lineageTag: ee1ee3f1-c31b-4567-bd14-c86529437d70
+		sourceColumn: Customer_Name
+
+	column Segment
+		dataType: string
+		lineageTag: 8aa5e36f-faa9-4ded-9ce5-7ac306f8c026
+		sourceColumn: Segment
+
+	partition Dim_Customer-Partition = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\Git Hub Projects\data\cleaned_sales_data.csv"),[Delimiter=",", Columns=18, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Selected Columns" = Table.SelectColumns(#"Promoted Headers",{"Customer_ID", "Customer_Name", "Segment"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Selected Columns")
+				in
+				    #"Removed Duplicates"
+
